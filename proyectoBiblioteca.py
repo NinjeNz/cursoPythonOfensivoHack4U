@@ -25,9 +25,19 @@ class Biblioteca:
         else:
             print(f"\n[!] No es posible agregar el libro con ID {libro.id_libro}")
 
+    def prestar_libro(self, id_libro):
+        if id_libro in self.libros and not self.libros[id_libro].esta_prestado:
+            self.libros[id_libro].esta_prestado = True
+        else:
+            print(f"\n[!] No es posible prestar el libro con ID {id_libro}")
+
     @property
     def mostrar_libros(self):
         return [libro for libro in self.libros.values() if not libro.esta_prestado]
+    
+    @property
+    def mostrar_libros_prestados(self):
+        return [libro for libro in self.libros.values() if libro.esta_prestado]
 
 
 if __name__ == '__main__':
@@ -41,3 +51,7 @@ if __name__ == '__main__':
     biblioteca.agregar_libro(libro2)
 
     print(f"\n[+] Libros en la biblioteca: {biblioteca.mostrar_libros}")
+
+    biblioteca.prestar_libro(1)
+    print(f"\n[+] Libros en la biblioteca: {biblioteca.mostrar_libros}")
+    print(f"\n[+] Libros prestados: {biblioteca.mostrar_libros_prestados}")
