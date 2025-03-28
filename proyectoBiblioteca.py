@@ -55,6 +55,9 @@ class BibliotecaInfantil(Biblioteca):
         else:
             print(f"\n[!] No es posible prestar el libro con ID {id_libro}")
 
+    @property
+    def mostrar_estado_libros_para_ninos(self):
+        return self.libros_para_ninos
 
 if __name__ == '__main__':
 
@@ -71,3 +74,4 @@ if __name__ == '__main__':
     biblioteca.prestar_libro(1, es_nino=False)
     print(f"\n[+] Libros en la biblioteca: {biblioteca.mostrar_libros}")
     print(f"\n[+] Libros prestados: {biblioteca.mostrar_libros_prestados}")
+    print(f"\n[+] Libros prestados: {biblioteca.mostrar_estado_libros_para_ninos}")
