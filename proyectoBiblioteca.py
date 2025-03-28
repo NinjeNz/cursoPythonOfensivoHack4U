@@ -38,20 +38,36 @@ class Biblioteca:
     @property
     def mostrar_libros_prestados(self):
         return [libro for libro in self.libros.values() if libro.esta_prestado]
+    
+class BibliotecaInfantil(Biblioteca):
+
+    def __init__(self):
+        super().__init__()
+        self.libros_para_ninos = {} # -> {1: True, 2: False, 3: True}
+
+    def agregar_libro(self, libro, es_para_ninos):
+        super().agregar_libro(libro)
+        self.libros_para_ninos[libro.id_libro] = es_para_ninos
+
+    def prestar_libro(self, id_libro, es_nino):
+        if id_libro in self.libros and self.libros_para_ninos[id_libro] == es_nino and not self.libros[id_libro].esta_prestado:
+            self.libros[id_libro].esta_prestado = True
+        else:
+            print(f"\n[!] No es posible prestar el libro con ID {id_libro}")
 
 
 if __name__ == '__main__':
 
-    biblioteca = Biblioteca()
+    biblioteca = BibliotecaInfantil()
 
     libro1 = Libro(1, "Marcelo Vazquez", "¿Como ser un Lammer de Potencia Maxima?")
     libro2 = Libro(2, "Pepito Manolete", "Aprende a colorear desde cero")
 
-    biblioteca.agregar_libro(libro1)
-    biblioteca.agregar_libro(libro2)
+    biblioteca.agregar_libro(libro1, es_para_ninos = False)
+    biblioteca.agregar_libro(libro2, es_para_ninos = True)
 
     print(f"\n[+] Libros en la biblioteca: {biblioteca.mostrar_libros}")
 
-    biblioteca.prestar_libro(1)
+    biblioteca.prestar_libro(1, es_nino=False)
     print(f"\n[+] Libros en la biblioteca: {biblioteca.mostrar_libros}")
     print(f"\n[+] Libros prestados: {biblioteca.mostrar_libros_prestados}")
