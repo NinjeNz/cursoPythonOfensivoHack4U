@@ -48,3 +48,4 @@ def mi_funcion2():
 mi_funcion2()
 
 print(variable)
+

@@ -34,4 +34,7 @@ print(Libro.es_bestseller(8000))
 print(f"\n[+] El precio del libro con IVA incluido es de {round(Libro.precio_con_iva(mi_libro.precio),2)}") #Round sirve para redondear
 #print usando self en metodo precio_con_iva2
 print(f"\n[+] El precio del libro con IVA incluido es de {mi_libro.precio_con_iva2()}")
+# Haciendo uso de @classmethod
 print(f"\n El precio del libro digital con IVA incluido es de {LibroDigital.precio_con_ivacls(mi_libro_digital.precio)}")
+
+# NOTA: Si usaramos staticmethod en el anterior print
