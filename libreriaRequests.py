@@ -110,6 +110,7 @@ response = s.get(url)
 print(response.text)
 """
 
+"""
 # Preparado de solicitud personalizada
 
 from requests import Request, Session
@@ -127,4 +128,34 @@ prepped.headers['Another-Header'] = 'this_is_another_header'
 response = s.send(prepped)
 
 print(response.text) 
+"""
+"""
+# Historico de direcciones URL transitadas.
+url = 'http://github.com'
 
+r  = requests.get(url)
+#r = requests.get(url, allow_redirects=False)
+
+print(r.url)
+#print(r.history)
+
+for request in r.history:
+    print(f"\n[+] Hemos pasado por el dominio {request.url} con un codigo de estado {request.status_code}")
+
+print(f"\n[+] URL final: {r.url} con el codigo de estado: {r.status_code}")
+"""
+
+"""
+
+# Arrastrando sesiones de autenticacion
+
+# https://httpbin.org/basic-auth/foo/bar
+
+with requests.Session() as session:
+    session.auth = ('foo', 'bar')
+    response1 = session.get('https://httpbin.org/basic-auth/foo/bar')
+    print(response1.text)
+
+    response2 = session.get('https://httpbin.org/basic-auth/foo/bar')
+    print(response2.text)
+"""
