@@ -132,7 +132,7 @@ line = canvas.create_line(50, 250, 200, 320, fill="blue")
 
 root.mainloop()
 """
-
+"""
 # MENU
 import tkinter as tk
 from tkinter import messagebox
@@ -156,6 +156,24 @@ menu2 = tk.Menu(barra_menu, tearoff=0)
 barra_menu.add_cascade(label="Extras", menu=menu2)
 
 menu2.add_command(label="Se tensa", command=accion_menu)
+
+root.mainloop()
+"""
+
+# Buttons con funcion
+
+import tkinter as tk
+from tkinter import filedialog
+
+root = tk.Tk()
+root.geometry("200x70")
+
+def abrir_archivo():
+    ruta_archivo = filedialog.askopenfilename()
+    print(f"\n[+] Ruta del archivo en cuestion: {ruta_archivo}")
+
+boton = tk.Button(root, text="Abrir archivo", command=abrir_archivo)
+boton.pack(pady=15)
 
 root.mainloop()
 
