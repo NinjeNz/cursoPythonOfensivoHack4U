@@ -28,9 +28,25 @@ class Calculadora:
             if col > 3:
                 col = 0
                 row += 1
-                
+    
+    def clear_display(self):
+        self.display.delete(0, "end") # Tambien puede usarse 'tk.END' en lugar de "end", el efecto es el mismo.
+        
+    def calculate(self):
+        print(f"\n[+] Este metodo aun no ha sido implementado\n")
+        
+    def click(self, key): # key es el button que se esta presionando
+        self.display.insert("end", key) # Con "end" indicamos que los valores se inserten desde el final.
+        print(f"\n[+] Has presionado el boton {key}")
+               
     def build_button(self, button, row, col):
-        b = tk.Button(self.master, text=button, width=3)
+        if button == "C":
+            b = tk.Button(self.master, text=button, width=3, command=lambda: self.clear_display())
+        elif button == "=":
+            b = tk.Button(self.master, text=button, width=3, command=lambda: self.calculate())
+        else:
+            b = tk.Button(self.master, text=button, width=3, command=lambda: self.click(button)) # Usamos funciones lambda para asegurarnos no llamar la funcion hasta hacer click a pesar de los parentesis.
+            
         b.grid(row=row, column=col)
 
 root = tk.Tk() # Ventana principal
