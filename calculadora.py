@@ -8,6 +8,10 @@ class Calculadora:
         self.master = master
         self.display = tk.Entry(master, width=15, font=("Arial", 23), bd=10, insertwidth=1, bg="#ef1111", justify="right")
         self.display.grid(row=0, column=0, columnspan=4)
+        self.op_verification = False
+        self.current = ''
+        self.op = ''
+        self.total = 0
         
         row = 1
         col = 0
@@ -31,13 +35,49 @@ class Calculadora:
     
     def clear_display(self):
         self.display.delete(0, "end") # Tambien puede usarse 'tk.END' en lugar de "end", el efecto es el mismo.
+        self.op_verification = False
+        self.current = ''
+        self.op = ''
+        self.total = 0
         
     def calculate(self):
-        print(f"\n[+] Este metodo aun no ha sido implementado\n")
+        
+        if self.current and self.op:
+            if self.op =="/":
+                self.total /= float(self.current)
+            if self.op =="*":
+                self.total *= float(self.current)
+            if self.op =="+":
+                self.total += float(self.current)
+            if self.op =="-":
+                self.total -= float(self.current)
+                
+        self.display.delete(0, "end")
+        self.display.insert("end", round(self.total, 3))
         
     def click(self, key): # key es el button que se esta presionando
+        
+        if self.op_verification:
+            self.op_verification = False
+        
         self.display.insert("end", key) # Con "end" indicamos que los valores se inserten desde el final.
+        
+        if key in "0123456789" or key == ".":
+            self.current += key
+        else:
+            if self.current:
+                if not self.op:
+                    self.total = float(self.current)
+                    
+            self.current = ''
+            self.op_verification = True
+            self.op = key
+        
         print(f"\n[+] Has presionado el boton {key}")
+        print(f"[+] La primera combinacion es: {self.current}")
+        print(f"[+] Status op_verification: {self.op_verification}")
+        print(f"[+] Operacion a realizar: {self.op}")
+        print(f"[+] Total: {self.total}")
                
     def build_button(self, button, row, col):
         if button == "C":
