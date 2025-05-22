@@ -1,5 +1,6 @@
 #!/use/bin/env python3
 #Hola crayola
+#Lo wa borrar
 
 import tkinter as tk
 
