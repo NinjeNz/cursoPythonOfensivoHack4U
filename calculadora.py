@@ -1,6 +1,4 @@
 #!/use/bin/env python3
-#Hola crayola
-#Lo wa borrar
 
 import tkinter as tk
 
@@ -39,7 +37,18 @@ class Calculadora:
         
     def key_press(self, event):
         key = event.char
-        print(f"\n[+] Se ha presionado la tecla {key}")
+        
+        if key == "\r": # Representa la tecla Enter, la usamos para accionar el boton "="
+            self.calculate()
+            return
+        elif key == "\x08": # Representa la tecla Backspace, la usamos para limpiar la pantalla
+            self.clear_display()
+            return
+        elif key == "\x1b": # Representa la tecla Escape, la usamos para cerrar la calculadora
+            self.master.quit()
+            return
+            
+        self.click(key)
         
     def clear_display(self):
         self.display.delete(0, "end") # Tambien puede usarse 'tk.END' en lugar de "end", el efecto es el mismo.
@@ -81,11 +90,11 @@ class Calculadora:
             self.op_verification = True
             self.op = key
         
-        print(f"\n[+] Has presionado el boton {key}")
-        print(f"[+] La primera combinacion es: {self.current}")
-        print(f"[+] Status op_verification: {self.op_verification}")
-        print(f"[+] Operacion a realizar: {self.op}")
-        print(f"[+] Total: {self.total}")
+        #print(f"\n[+] Has presionado el boton {key}")
+        #print(f"[+] La primera combinacion es: {self.current}")
+        #print(f"[+] Status op_verification: {self.op_verification}")
+        #print(f"[+] Operacion a realizar: {self.op}")
+        #print(f"[+] Total: {self.total}")
                
     def build_button(self, button, row, col):
         if button == "C":
