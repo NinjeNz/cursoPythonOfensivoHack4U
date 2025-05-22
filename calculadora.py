@@ -32,7 +32,13 @@ class Calculadora:
             if col > 3:
                 col = 0
                 row += 1
-    
+
+        self.master.bind("<Key>", self.key_press)
+        
+    def key_press(self, event):
+        key = event.char
+        print(f"\n[+] Se ha presionado la tecla {key}")
+        
     def clear_display(self):
         self.display.delete(0, "end") # Tambien puede usarse 'tk.END' en lugar de "end", el efecto es el mismo.
         self.op_verification = False
