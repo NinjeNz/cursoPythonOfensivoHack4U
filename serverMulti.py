@@ -1,6 +1,15 @@
 import socket
 import threading
 
+def client_thread(client_socket, clients, usernames):
+    print(f"\n[+] Estamos en client_thread")
+    
+    username = client_socket.recv(1024).decode()
+    usernames[client_socket] = username
+    
+    #print(usernames)
+    print(f"\n[+] El usuario {username} se ha conectado al chat")
+
 def server_program():
     
     host = 'localhost'
@@ -17,7 +26,18 @@ def server_program():
     usernames = {}
 
 
-
+    while True:
+        
+        client_socket, address = server_socket.accept()
+        clients.append(client_socket)
+        
+        print(f"\n[+] Se ha conectado un nuevo cliente: {address}")
+        
+        thread = threading.Thread(target=client_thread, args=(client_socket, clients, usernames))
+        thread.daemon = True
+        thread.start()
+        
+    server_socket.close()
 
 
 if __name__ == '__main__':
