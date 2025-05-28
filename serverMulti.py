@@ -1,3 +1,4 @@
+import ssl
 import socket
 import threading
 
@@ -22,20 +23,29 @@ def client_thread(client_socket, clients, usernames):
             if not message:
                 break
             
+            if message == "!usuarios":
+                client_socket.sendall(f"\n[+] Listado de usuarios conectados: {', '.join(usernames.values())}\n\n".encode())
+                continue
+            
             for client in clients:
                 if client is not client_socket:
                     client.sendall(f"{message}\n".encode())
         except:
             break
-
+    
+    client_socket.close()
+    clients.remove(client_socket)
+    del usernames[client_socket]
+    
 def server_program():
     
     host = 'localhost'
-    port = 12346
+    port = 12345
     
     server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1) # TIME_WAIT
     server_socket.bind((host, port))
+    #server_socket = ssl.wrap_socket(server_socket, keyfile="server-key.key", certfile="server-cert.pem", server_side=True)
     server_socket.listen()
     
     print(f"\n[+] El servidor está en escucha de conexiones entrantes...")
