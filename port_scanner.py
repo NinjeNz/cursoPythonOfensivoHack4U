@@ -147,7 +147,9 @@ def create_socket():
     s.settimeout(0.2)
     return s
 
-def port_scanner(port, host, s):
+def port_scanner(port, host):
+    s = create_socket()
+    
     try:
         s.connect((host, port))
         print(colored(f"\n[+] El puerto {port} esta abierto", 'green'))
@@ -158,9 +160,14 @@ def port_scanner(port, host, s):
         #pass
 
 def scan_ports(ports, target):
+    threads = []
     for port in ports:
-        s = create_socket()
-        port_scanner(port, target, s)
+        thread = threading.Thread(target=port_scanner, args=(port, target))
+        threads.append(thread)
+        thread.start()
+        
+    for thread in threads:
+        thread.join()
 
 def parse_ports(ports_str):
     if '-' in ports_str:
