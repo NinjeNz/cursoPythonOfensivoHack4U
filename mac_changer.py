@@ -12,13 +12,14 @@ def get_arguments():
     return parser.parse_args()
 
 def is_valid_input(interface, mac_address):
-    is_valid_interface = re.match(r'^[e][n|t][s|h|p]\d{1,2}\w\d$', interface)
+    is_valid_interface = re.match(r'^[e][n|t][s|h|p]\d{1,2}(?:\w\d|\d\w|\w\w|\d\d)?$', interface)
+    #is_valid_interface = re.match(r'^[e][n|t][s|h|p]\d{1,2}$', interface)
     is_valid_mac_address = re.match(r'^([A-Fa-f0-9]{2}[:]){5}[A-Fa-f0-9]{2}$', mac_address)
     
-    #print(is_valid_interface)
-    #print(is_valid_mac_address)
+    print(is_valid_interface)
+    print(is_valid_mac_address)
     
-    return is_valid_interface and is_valid_mac_address
+    #return is_valid_interface and is_valid_mac_address
 
 def change_mac_address(interface, mac_address):
     if is_valid_input(interface, mac_address):

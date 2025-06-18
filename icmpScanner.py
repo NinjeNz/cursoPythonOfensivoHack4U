@@ -1,7 +1,19 @@
 #!/usr/bin/env python3
 
 import argparse
+import subprocess
+import signal
+#import sys
+import os
+from concurrent.futures import ThreadPoolExecutor
 from termcolor import colored
+
+def def_handler(sig, frame):
+    print(colored(f"\n[!] Saliendo del programa...\n", 'red'))
+    #sys.exit(1)
+    os._exit(os.EX_OK)
+    
+signal.signal(signal.SIGINT, def_handler)
 
 def get_arguments():
     parser = argparse.ArgumentParser(description="Herramienta para descubrir hosts activos en una red (ICMP)")
@@ -25,12 +37,29 @@ def parse_target(target_str):
             return [target_str]
     else:
         print(colored(f"\n[!] El formato de IP o rango de IP no es valido\n", 'red'))
+        
+def host_discovery(target):
+      
+    try:
+        ping = subprocess.run(["ping", "-c", "1", target], timeout=1, stdout=subprocess.DEVNULL)
+            
+        if ping.returncode == 0:
+            print(colored(f"\t[i] La IP {target} esta activa", 'green'))
+    except subprocess.TimeoutExpired:
+        pass
 
 def main():
     target_str = get_arguments()
     targets = parse_target(target_str)
     
-    print(targets)
+    print(f"\n[+] Hosts activos en la red:\n")
+    
+    max_threads = 100
+    
+    with ThreadPoolExecutor(max_threads) as executor:
+        executor.map(host_discovery, targets)
+    
+    #print(targets)
 
 if __name__ == '__main__':
     main()
