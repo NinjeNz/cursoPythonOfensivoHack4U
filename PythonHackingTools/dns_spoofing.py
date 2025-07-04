@@ -1,7 +1,10 @@
-import netfilterqueue 
+#!/usr/bin/env python3
+
+#import netfilterqueue
+from netfilterqueue import NetfilterQueue
 import scapy.all as scapy
 import signal
-import Sys
+import sys
 
 def def_handler(sig, frame):
     print(f"\n[!] Saliendo...\n")
@@ -9,7 +12,7 @@ def def_handler(sig, frame):
     
 signal.signal(signal.SIGINT, def_handler)
 
-def process_packet(packet]):
+def process_packet(packet):
     scapy_packet = scapy.IP(packet.get_payload())
     
     if scapy_packet.haslayer(scapy.DNSRR):
